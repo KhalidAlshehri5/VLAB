@@ -81,7 +81,7 @@
 <body>
 
     <div class="login-container">
-        <!-- إضافة الشعار هنا -->
+       
         <img src="your-logo-url.png" alt="شعار الموقع" class="logo">
         <h2>:تسجيل دخول الطلاب</h2>
         <form action="#" method="post">
