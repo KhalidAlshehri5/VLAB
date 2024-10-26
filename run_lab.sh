@@ -16,6 +16,13 @@ case $lab_choice in
         ;;
     2)
         echo "Starting Nmap..."
+        # Check if Nmap is installed
+        if ! command -v nmap &> /dev/null
+        then
+            echo "Nmap not found. Installing Nmap..."
+            sudo apt update
+            sudo apt install -y nmap
+        fi
         sudo docker run -it alucard5/vlab-tools nmap
         ;;
     3)
@@ -29,4 +36,4 @@ case $lab_choice in
     *)
         echo "Invalid selection. Please choose a number between 1 and 4."
         ;;
-esac                                                                                        
+esac
