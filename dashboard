@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VLAB Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6dd5fa, #2980b9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            color: #333;
+        }
+
+        .header, .footer {
+            width: 100%;
+            background-color: #34495e;
+            padding: 15px;
+            color: #fff;
+            position: fixed;
+        }
+
+        .header {
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome {
+            font-size: 18px;
+            margin-left: 15px;
+        }
+
+        .logout-btn {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #3498db;
+            margin-right: 15px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            margin-top: 120px;
+        }
+
+        .description-box {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        button {
+            width: 80%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .start-btn {
+            background-color: #2ecc71;
+        }
+
+        .stop-btn {
+            background-color: #e74c3c;
+        }
+
+        .status, .password, .connect {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .connect {
+            background-color: #dfe6e9;
+            color: #007bff;
+            font-size: 16px;
+        }
+
+        .footer {
+            bottom: 0;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+    <script>
+        function refreshStatus() {
+            fetch('/vm_status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("vmStatus").innerText = "VM Status: " + data.status;
+                });
+        }
+
+        function refreshPassword() {
+            fetch('/password')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.password) {
+                        document.getElementById("vmPassword").innerText = "Current VM Password: " + data.password;
+                    } else {
+                        document.getElementById("vmPassword").innerText = "Current VM Password: Not available";
+                    }
+                });
+        }
+
+        setInterval(refreshStatus, 5000); // تحديث الحالة كل 5 ثوانٍ
+        setInterval(refreshPassword, 5000); // تحديث كلمة المرور كل 5 ثوانٍ
+    </script>
+</head>
+<body>
+
+    <div class="header">
+        <div class="welcome">Welcome to VLAB</div>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+
+    <div class="container">
+        <img src="/static/VLAB.jpeg" alt="VLAB Logo" style="width: 80px; margin-bottom: 15px;">
+        
+        <div class="description-box">
+            This virtual lab environment helps students who face challenges in running ethical hacking labs on their personal devices due to hardware limitations. It provides a stable, cloud-based lab environment accessible to students without the need for complex configurations, using Docker for efficient resource management and streamlined application setup.
+        </div>
+
+        <h1>VLAB Dashboard</h1>
+
+        <form action="/start_vm" method="post">
+            <button type="submit" class="start-btn">Start VM</button>
+        </form>
+        
+        <form action="/stop_vm" method="post">
+            <button type="submit" class="stop-btn">Stop VM</button>
+        </form>
+
+        <div id="vmStatus" class="status">VM Status: Loading...</div>
+        <div id="Connect" class="connect">To connect to the lab, use the following command: ssh azureuser@52.238.29.60</div>
+        <div id="vmPassword" class="password">Current VM Password: Loading...</div>
+    </div>
+
+    <div class="footer">
+        VLAB Project © 2024 | Empowering students with cloud-based learning environments
+    </div>
+
+</body>
+</html>
