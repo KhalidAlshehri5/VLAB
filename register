@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register New Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6dd5fa, #2980b9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .header {
+            width: 100%;
+            background-color: #333;
+            padding: 10px;
+            text-align: right;
+            position: fixed;
+            top: 0;
+            right: 0;
+            color: #fff;
+        }
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 5px 15px;
+            border-radius: 5px;
+            background-color: #007bff;
+            transition: background-color 0.3s ease;
+        }
+        .header a:hover {
+            background-color: #0056b3;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            margin-top: 80px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .register-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+        }
+        .register-btn:hover {
+            opacity: 0.9;
+        }
+        .login-link {
+            margin-top: 15px;
+            display: block;
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .login-link:hover {
+            color: #0056b3;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/login">Login</a>
+    </div>
+
+    <div class="container">
+        <h2>Register New Student</h2>
+        <form action="/register" method="POST">
+            <label for="username">Student Name</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="education_level">Education Level</label>
+            <select id="education_level" name="education_level" required>
+                <option value="bachelor">Bachelor</option>
+                <option value="diploma">Diploma</option>
+            </select>
+
+            <button type="submit" class="register-btn">Register Now</button>
+        </form>
+        <a href="/login" class="login-link">If you already have an account, click here to login</a>
+    </div>
+
+    <footer>
+        VLAB Project © 2024 | Empowering students with cloud-based learning environments
+    </footer>
+</body>
+</html>
