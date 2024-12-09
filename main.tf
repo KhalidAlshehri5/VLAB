@@ -1,11 +1,7 @@
-اتمتة
-
-
 provider "azurerm" {
   features {}
-    subscription_id = "4ece3f7f-2ce6-47d4-8485-a4c76438f535"
+  subscription_id = "4ece3f7f-2ce6-47d4-8485-a4c76438f535"
 }
-
 
 resource "azurerm_resource_group" "example" {
   name     = "VLAB_group"
@@ -30,10 +26,8 @@ resource "azurerm_public_ip" "example" {
   name                = "VLAB_public_ip"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
-  allocation_method   = "Static"  
-  sku                 = "Standard"  
-}
-
+  allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 resource "azurerm_network_security_group" "example" {
@@ -53,6 +47,7 @@ resource "azurerm_network_security_rule" "allow_ssh" {
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   network_security_group_name = azurerm_network_security_group.example.name
+  resource_group_name         = azurerm_resource_group.example.name
 }
 
 resource "azurerm_network_interface" "example" {
@@ -68,18 +63,21 @@ resource "azurerm_network_interface" "example" {
   }
 }
 
+resource "random_password" "vlab_password" {
+  length  = 16
+  special = true
+}
+
 resource "azurerm_linux_virtual_machine" "example" {
   name                  = "VLAB"
   resource_group_name   = azurerm_resource_group.example.name
   location              = azurerm_resource_group.example.location
   size                  = "Standard_DS1_v2"
   admin_username        = "azureuser"
+  admin_password        = random_password.vlab_password.result
   network_interface_ids = [azurerm_network_interface.example.id]
 
-  admin_ssh_key {
-    username   = "azureuser"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCwVrEKjflvqLw/hA/D0RZ7kTOyO3Z8O2OYfIXtdL5bSVEfNyh25GRwPZYJGMmcaQ1v7FwEBqkBDp3vyeFencgk3tABKRCDaQagCPTbwdD55TBM1rHVMo9mY0nG5hlIu/miSdz2FhGXbrDXiIREuJ+NQG1yHnBp3722bVEzDnf+ocukiYv9aRp2qb8xY9Koap7/pJ+k3hDospdmPYnXAbZJY4FtLeyFCDWMafC5iJnJx16kFMX7DM82u/nmku7JJCNW5X75N9t5FTnMpvwiu8O6smivUqoOpDcs+9lCZVBVJJPy6n+vS3AYdOQ4ewG8HVhs9gqIMdVtJnAQr+dbxVsXrn/ixtV5HoSOMI4SmqY0oy2OtBV33HaPPOf0rcnqtAhP7wGfYBt3qcn3vz4t9ToC/ftZtQUiFv5iG80FXkbyhCZcqsBi7T0JlrUxIgZhgUDfxtKUmx8UBHB9e9kK9H75DsTspMqEcUergYeTwMwI2UrP+OM7GoRiFBrWqDOTmyJ78fOzFmIF2m7sop52YmYMCtK5xwQm5/Z133INMAKzKWTiqGyZDrXc88Uf7J8MeA27PyQY+d53BT/YDcMEbQxLk2fC1qZV28OqmIaIJQXpUiG7TW48jxCzpFRJesfMMPJnw2yZb5HcwmxgYQUu0Mynm8alyLVGCKRfcQ461whvvQ== azureuser@vlab.com"
-  }
+  disable_password_authentication = false
 
   os_disk {
     caching              = "ReadWrite"
@@ -92,4 +90,10 @@ resource "azurerm_linux_virtual_machine" "example" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
+}
+
+output "vm_password" {
+  description = "The randomly generated password for the VM."
+  value       = random_password.vlab_password.result
+  sensitive   = true
 }
