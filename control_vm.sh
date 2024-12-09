@@ -1,6 +1,6 @@
 #!/bin/bash
-VM_NAME="VLAB" 
-RESOURCE_GROUP="VLAB_group" 
+VM_NAME="VLAB" # اسم الـ VM
+RESOURCE_GROUP="VLAB_group" # اسم مجموعة الموارد
 
 if [ "$1" == "start" ]; then
     az vm start --resource-group $RESOURCE_GROUP --name $VM_NAME
