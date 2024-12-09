@@ -13,6 +13,7 @@
             align-items: center;
             margin: 0;
             color: #333;
+            padding: 20px 0;
         }
 
         .header, .footer {
@@ -21,6 +22,7 @@
             padding: 15px;
             color: #fff;
             position: fixed;
+            z-index: 10;
         }
 
         .header {
@@ -28,6 +30,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .footer {
+            bottom: 0;
+            text-align: center;
+            font-size: 14px;
         }
 
         .welcome {
@@ -46,35 +54,54 @@
             margin-right: 15px;
         }
 
+        .info-container {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 100px;
+            text-align: center;
+            margin-bottom: 60px; /* زيادة المسافة بين الصندوقين */
+        }
+
+        .info-box {
+            background-color: #f9f9f9;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 26px;
+            line-height: 1.8;
+            border: 2px solid #ddd;
+            color: #333;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-box .title {
+            font-size: 35px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
         .container {
             background-color: #ffffff;
-            padding: 30px;
+            padding: 25px; /* تقليل الحشو داخل المربع السفلي */
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 500px;
             width: 90%;
-            margin-top: 120px;
-        }
-
-        .description-box {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 16px;
-            line-height: 1.6;
+            margin-bottom: 50px; /* ترك مسافة كافية أسفل المربع */
         }
 
         h1 {
             color: #333;
             margin-bottom: 20px;
-            font-size: 24px;
+            font-size: 35px;
         }
 
         button {
             width: 80%;
-            padding: 15px;
+            padding: 12px; /* تقليل حجم الأزرار */
             margin: 10px 0;
             font-size: 16px;
             border: none;
@@ -91,26 +118,25 @@
             background-color: #e74c3c;
         }
 
-        .status, .password, .connect {
-            margin-top: 20px;
-            font-size: 18px;
+        .status, .password, .connect, .run_lab {
+            margin-top: 15px; /* تقليل المسافات بين العناصر */
+            font-size: 16px; /* تصغير النصوص قليلاً */
             color: #333;
             background-color: #f1f1f1;
-            padding: 15px;
+            padding: 10px; /* تقليل الحشو داخل النصوص */
             border-radius: 10px;
             font-weight: bold;
         }
 
-        .connect {
+        .connect, .run_lab {
             background-color: #dfe6e9;
             color: #007bff;
-            font-size: 16px;
+            font-size: 14px;
         }
 
-        .footer {
-            bottom: 0;
-            text-align: center;
-            font-size: 14px;
+        .logo {
+            width: 150px;
+            margin-bottom: 15px;
         }
     </style>
     <script>
@@ -134,8 +160,8 @@
                 });
         }
 
-        setInterval(refreshStatus, 5000); // تحديث الحالة كل 5 ثوانٍ
-        setInterval(refreshPassword, 5000); // تحديث كلمة المرور كل 5 ثوانٍ
+        setInterval(refreshStatus, 5000); // Update status every 5 seconds
+	setInterval(refreshPassword, 5000); //update password every 5 seconds
     </script>
 </head>
 <body>
@@ -145,13 +171,17 @@
         <a href="/logout" class="logout-btn">Logout</a>
     </div>
 
-    <div class="container">
-        <img src="/static/VLAB.jpeg" alt="VLAB Logo" style="width: 80px; margin-bottom: 15px;">
-        
-        <div class="description-box">
-            This virtual lab environment helps students who face challenges in running ethical hacking labs on their personal devices due to hardware limitations. It provides a stable, cloud-based lab environment accessible to students without the need for complex configurations, using Docker for efficient resource management and streamlined application setup.
+    <div class="info-container">
+        <div class="info-box">
+            <img src="/static/VLAB.jpeg" alt="VLAB Logo" class="logo">
+            <div class="title">Welcome to your virtual lab</div>
+            <p>
+                This virtual lab environment helps students who face challenges in running ethical hacking labs on their personal devices due to hardware limitations. It provides a stable, cloud-based lab environment accessible to students without the need for complex configurations, using Docker for efficient resource management and streamlined application setup.
+            </p>
         </div>
+    </div>
 
+    <div class="container">
         <h1>VLAB Dashboard</h1>
 
         <form action="/start_vm" method="post">
@@ -163,7 +193,8 @@
         </form>
 
         <div id="vmStatus" class="status">VM Status: Loading...</div>
-        <div id="Connect" class="connect">To connect to the lab, use the following command: ssh azureuser@52.238.29.60</div>
+        <div id="Connect" class="connect">To connect to the lab, use the following command: ssh azureuser@52.238.29.60 </div>
+        <div id="run_lab" class="run_lab">To choose the lab, use the following command: ./run_lab.sh </div>
         <div id="vmPassword" class="password">Current VM Password: Loading...</div>
     </div>
 
